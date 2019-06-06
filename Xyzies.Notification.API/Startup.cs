@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Xyzies.Notification.Data;
+using Xyzies.Notification.Data.Repository;
+using Xyzies.Notification.Data.Repository.Behaviour;
+using Xyzies.Notification.Services.Common.Interfaces;
+using Xyzies.Notification.Services.Services;
 
 namespace Xyzies.Notification.API
 {
@@ -79,6 +85,16 @@ namespace Xyzies.Notification.API
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
                    string.Concat(Assembly.GetExecutingAssembly().GetName().Name, ".xml")));
             });
+
+            services.AddDbContext<NotificationContext>(ctxOptions =>
+                    ctxOptions.UseSqlServer(Configuration.GetConnectionString("db")));
+
+            #region DI settings
+
+            services.AddScoped<IMailerService, MailerService>();
+            services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+
+            #endregion
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {

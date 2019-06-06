@@ -16,6 +16,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="4.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xyzies.Notification.Data\Xyzies.Notification.Data.csproj" />
+    <ProjectReference Include="..\Xyzies.Notification.Services\Xyzies.Notification.Services.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
