@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Xyzies.Notification.Data.Migrations
 {
-    public partial class CreateEmailTemplateTable : Migration
+    public partial class CreateMessageTemplateTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +21,7 @@ namespace Xyzies.Notification.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmailTemplates",
+                name: "MessageTemplates",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -34,9 +34,9 @@ namespace Xyzies.Notification.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailTemplates", x => x.Id);
+                    table.PrimaryKey("PK_MessageTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmailTemplates_TypeOfMessages_TypeOfMessageId",
+                        name: "FK_MessageTemplates_TypeOfMessages_TypeOfMessageId",
                         column: x => x.TypeOfMessageId,
                         principalTable: "TypeOfMessages",
                         principalColumn: "Id",
@@ -44,15 +44,15 @@ namespace Xyzies.Notification.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmailTemplates_TypeOfMessageId",
-                table: "EmailTemplates",
+                name: "IX_MessageTemplates_TypeOfMessageId",
+                table: "MessageTemplates",
                 column: "TypeOfMessageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmailTemplates");
+                name: "MessageTemplates");
 
             migrationBuilder.DropTable(
                 name: "TypeOfMessages");

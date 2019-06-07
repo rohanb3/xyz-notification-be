@@ -6,7 +6,7 @@ namespace Xyzies.Notification.Services.Models
 {
     public class EmailParametersModel
     {
-        public string Udid { get; set; }
+        public string UDID { get; set; }
 
         public string Address { get; set; }
 
@@ -19,5 +19,7 @@ namespace Xyzies.Notification.Services.Models
         public string Notes { get; set; }
 
         public DateTime LastHeartBeat { get; set; }
+
+        public string MailTo { get; set; }
     }
 }

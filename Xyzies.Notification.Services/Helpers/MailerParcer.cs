@@ -9,7 +9,7 @@ namespace Xyzies.Notification.Services.Helpers
     {
         public static string ProcessTemplate(string template, Dictionary<string, string> data)
         {
-            return Regex.Replace(template, "\\{\\{(.*?)\\}\\}", m =>
+            return Regex.Replace(template, @"\{(.+?)\}", m =>
                m.Groups.Count > 1 && data.ContainsKey(m.Groups[1].Value) ?
                data[m.Groups[1].Value] : m.Value);
         }
@@ -18,7 +18,7 @@ namespace Xyzies.Notification.Services.Helpers
         {
             return typeof(EmailParametersModel)
                 .GetProperties()
-                .ToDictionary(c => c.Name, c => c.GetValue(emailParams).ToString());
+                .ToDictionary(c => c.Name.ToLower(), c => c.GetValue(emailParams).ToString());
             
         }
     }

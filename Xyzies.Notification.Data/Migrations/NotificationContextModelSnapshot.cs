@@ -41,7 +41,7 @@ namespace Xyzies.Notification.Data.Migrations
 
                     b.HasIndex("TypeOfMessageId");
 
-                    b.ToTable("EmailTemplates");
+                    b.ToTable("MessageTemplates");
                 });
 
             modelBuilder.Entity("Xyzies.Notification.Data.Entity.TypeOfMessage", b =>

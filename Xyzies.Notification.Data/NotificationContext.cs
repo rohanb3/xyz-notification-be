@@ -13,7 +13,7 @@ namespace Xyzies.Notification.Data
 
         public DbSet<TypeOfMessage> TypeOfMessages { get; set; }
 
-        public DbSet<MessageTemplate> EmailTemplates { get; set; }
+        public DbSet<MessageTemplate> MessageTemplates { get; set; }
 
         #endregion
 

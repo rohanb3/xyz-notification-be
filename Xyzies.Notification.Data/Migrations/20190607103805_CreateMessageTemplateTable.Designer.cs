@@ -10,8 +10,8 @@ using Xyzies.Notification.Data;
 namespace Xyzies.Notification.Data.Migrations
 {
     [DbContext(typeof(NotificationContext))]
-    [Migration("20190607090119_CreateEmailTemplateTable")]
-    partial class CreateEmailTemplateTable
+    [Migration("20190607103805_CreateMessageTemplateTable")]
+    partial class CreateMessageTemplateTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,7 @@ namespace Xyzies.Notification.Data.Migrations
 
                     b.HasIndex("TypeOfMessageId");
 
-                    b.ToTable("EmailTemplates");
+                    b.ToTable("MessageTemplates");
                 });
 
             modelBuilder.Entity("Xyzies.Notification.Data.Entity.TypeOfMessage", b =>

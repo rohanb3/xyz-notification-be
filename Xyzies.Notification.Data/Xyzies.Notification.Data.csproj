@@ -13,6 +13,10 @@
     <Compile Remove="Migrations\20190607084134_CreateEmailTemplateTable.Designer.cs" />
     <Compile Remove="Migrations\20190607084303_CreateEmailTemplateTable.cs" />
     <Compile Remove="Migrations\20190607084303_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607090119_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607090119_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607103708_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607103708_CreateEmailTemplateTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,6 +21,7 @@ using Xyzies.Notification.Data;
 using Xyzies.Notification.Data.Repository;
 using Xyzies.Notification.Data.Repository.Behaviour;
 using Xyzies.Notification.Services.Common.Interfaces;
+using Xyzies.Notification.Services.Helpers;
 using Xyzies.Notification.Services.Services;
 
 namespace Xyzies.Notification.API
@@ -54,6 +55,8 @@ namespace Xyzies.Notification.API
             {
                 options.ServiceUrl = options.ServiceUrl = Configuration.GetSection("Services")["IdentityServiceUrl"];
             });
+
+            services.Configure<MailerOptions>(options => Configuration.Bind("MailServiceOptions", options));
 
             services.AddSwaggerGen(options =>
             {
