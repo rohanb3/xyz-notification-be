@@ -4,7 +4,7 @@ using Xyzies.Notification.Data.Entity;
 
 namespace Xyzies.Notification.Data.Repository.Behaviour
 {
-    public interface IEmailTemplateRepository: IRepository<Guid, EmailTemplate>
+    public interface IMessageTemplateRepository: IRepository<Guid, MessageTemplate>
     {
     }
 }

@@ -22,13 +22,12 @@ namespace Xyzies.Notification.API.Controllers
                 throw new ArgumentNullException(nameof(logger));
         }
 
-        // GET api/values
-        [HttpGet]
+        [HttpPost]
         [SwaggerOperation(Tags = new[] { "Notification Api" })]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> SendEmail()
         {
+            
             return Ok(new string[] { "value1", "value2" });
         }
-
     }
 }

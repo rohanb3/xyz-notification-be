@@ -49,7 +49,7 @@ namespace Xyzies.Notification.API
             services.AddHealthChecks();
             services.AddHttpContextAccessor();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+           
             services.AddIdentityClient(options =>
             {
                 options.ServiceUrl = options.ServiceUrl = Configuration.GetSection("Services")["IdentityServiceUrl"];
@@ -92,8 +92,7 @@ namespace Xyzies.Notification.API
             #region DI settings
 
             services.AddScoped<IMailerService, MailerService>();
-            services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
-
+            services.AddScoped<IMessageTemplateRepository, MessageTemplateRepository>();
             #endregion
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings

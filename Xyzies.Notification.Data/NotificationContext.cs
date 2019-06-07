@@ -11,7 +11,9 @@ namespace Xyzies.Notification.Data
 
         #region Entities
 
-        public DbSet<EmailTemplate> EmailTemplates { get; set; }
+        public DbSet<TypeOfMessage> TypeOfMessages { get; set; }
+
+        public DbSet<MessageTemplate> EmailTemplates { get; set; }
 
         #endregion
 
