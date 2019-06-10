@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using Xyzies.Notification.Data.Repository.Behaviour;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
+using Xyzies.Notification.Data.Entity;
+using Xyzies.Notification.Data.Utils;
 
 namespace Xyzies.Notification.Services.Services
 {
@@ -18,15 +21,15 @@ namespace Xyzies.Notification.Services.Services
         private readonly SendGridClient _client;
         private readonly IMessageTemplateRepository _messagetTemplateRepository;
         private readonly ILogger<MailerService> _logger = null;
+        private readonly ILogRepository _loggerDb = null;
         private readonly string _from;
         private readonly List<string> _to;
         private readonly string _toMail;
 
-
-
         public MailerService(IOptionsMonitor<MailerOptions> mailerOptionsMonitor,
             IMessageTemplateRepository messagetTemplateRepository,
-            ILogger<MailerService> logger)
+            ILogger<MailerService> logger,
+            ILogRepository loggerDb)
         {
             var options = mailerOptionsMonitor.CurrentValue ??
                 throw new ArgumentNullException(nameof(mailerOptionsMonitor));
@@ -42,9 +45,12 @@ namespace Xyzies.Notification.Services.Services
 
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
+
+            _loggerDb = loggerDb ??
+                throw new ArgumentNullException(nameof(loggerDb));
         }
 
-        public async Task<Response> SendMail(EmailParametersModel model)
+        public async Task<Response> SendMail(EmailParameters model)
         {
             var emailmodel = await PrepareEmail(model);
 
@@ -61,7 +67,7 @@ namespace Xyzies.Notification.Services.Services
             return response;
         }
 
-        public async Task<MailSendingModel> PrepareEmail(EmailParametersModel emailParams)
+        public async Task<MailSendingModel> PrepareEmail(EmailParameters emailParams)
         {
             MailSendingModel email = new MailSendingModel();
 
@@ -69,7 +75,9 @@ namespace Xyzies.Notification.Services.Services
 
             Dictionary<string, string> parameters = MailerParcer.PrepareDictionaryParams(emailParams);
 
-            var emailtemplate = (await _messagetTemplateRepository.GetAsync(x=>x.Id == Guid.Parse("58a6c1d8-fa41-4b0c-9c11-f6c20429bda7"))).FirstOrDefault();
+            var emailtemplate = (await _messagetTemplateRepository.GetAsync(Filtering(emailParams.Cause)))
+                .OrderByDescending(x => x.CreateOn)
+                .FirstOrDefault();
 
             email.Subject = MailerParcer.ProcessTemplate(emailtemplate.Subject, parameters);
             email.From = new EmailAddress(_from);
@@ -77,6 +85,15 @@ namespace Xyzies.Notification.Services.Services
             email.HtmlContent = MailerParcer.ProcessTemplate(emailtemplate.MessageBody, parameters);
 
             return email;
+        }
+
+        private Expression<Func<MessageTemplate, bool>> Filtering(string Cause)
+        {
+            Expression<Func<MessageTemplate, bool>> expression = messagetemplate => messagetemplate.Cause == Cause;
+
+            expression = expression.AND(messagetemplate => messagetemplate.TypeOfMessages.Type == "email");
+
+            return expression;
         }
     }
 }

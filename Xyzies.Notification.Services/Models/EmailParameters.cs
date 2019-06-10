@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Xyzies.Notification.Services.Models
 {
-    public class EmailParametersModel
+    public class EmailParameters
     {
         public string UDID { get; set; }
 
@@ -19,6 +17,8 @@ namespace Xyzies.Notification.Services.Models
         public string Notes { get; set; }
 
         public DateTime LastHeartBeat { get; set; }
+
+        public string Cause { get; set; }
 
         public string MailTo { get; set; }
     }

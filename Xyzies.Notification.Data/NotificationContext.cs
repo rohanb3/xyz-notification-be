@@ -15,6 +15,8 @@ namespace Xyzies.Notification.Data
 
         public DbSet<MessageTemplate> MessageTemplates { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

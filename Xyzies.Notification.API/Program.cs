@@ -20,18 +20,18 @@ namespace Xyzies.Notification.API
                 .UseKestrel()
                 .ConfigureKestrel(serverOptions =>
                 {
+                    // TODO: Setup certificate for HTTPS and HTTP2.0
                     serverOptions.ListenAnyIP(port, listenOptions =>
                     {
-                        // TODO: Setup certificate for HTTPS and HTTP2.0
                         //listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                         //listenOptions.UseHttps("localhost.pfx", "Secret001");
                     });
                 })
                 .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConsole();
-                })
+                 {
+                     logging.ClearProviders();
+                     logging.AddConsole();
+                 })
                 .Build();
         }
     }

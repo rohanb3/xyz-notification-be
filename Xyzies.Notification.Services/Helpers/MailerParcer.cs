@@ -14,9 +14,9 @@ namespace Xyzies.Notification.Services.Helpers
                data[m.Groups[1].Value] : m.Value);
         }
 
-        public static Dictionary<string, string> PrepareDictionaryParams(EmailParametersModel emailParams)
+        public static Dictionary<string, string> PrepareDictionaryParams(EmailParameters emailParams)
         {
-            return typeof(EmailParametersModel)
+            return typeof(EmailParameters)
                 .GetProperties()
                 .ToDictionary(c => c.Name.ToLower(), c => c.GetValue(emailParams).ToString());
             
