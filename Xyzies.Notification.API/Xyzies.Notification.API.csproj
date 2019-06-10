@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ardas.AspNetCore.Logger" Version="1.0.1" />
-    <PackageReference Include="IdentityServiceClient" Version="1.1.7" />
+    <PackageReference Include="IdentityServiceClient" Version="1.1.8" />
     <PackageReference Include="Mapster" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="2.2.0" />

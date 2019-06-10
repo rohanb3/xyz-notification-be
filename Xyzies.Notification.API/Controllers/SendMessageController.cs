@@ -38,10 +38,9 @@ namespace Xyzies.Notification.API.Controllers
         /// Send Email
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="typeOfEmail"></param>
         /// <returns></returns>
-        [HttpPost]
-        //[AccessFilter(Const.Permissions.Comment.PermissionForCreate)]
+        [HttpPost("sendEmail")]
+        [AccessFilter(Const.Permissions.NotificationEmail.PermissionForCreate)]
         [ProducesResponseType(typeof(void), StatusCodes.Status201Created  /* 201 */)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest /* 400 */)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized /* 401 */)]
