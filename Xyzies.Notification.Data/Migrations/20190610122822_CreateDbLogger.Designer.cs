@@ -10,7 +10,7 @@ using Xyzies.Notification.Data;
 namespace Xyzies.Notification.Data.Migrations
 {
     [DbContext(typeof(NotificationContext))]
-    [Migration("20190610082329_CreateDbLogger")]
+    [Migration("20190610122822_CreateDbLogger")]
     partial class CreateDbLogger
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,16 +26,14 @@ namespace Xyzies.Notification.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CategoryName");
-
                     b.Property<DateTime>("CreateOn");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("LogLevel");
-
                     b.Property<string>("Message")
                         .IsRequired();
+
+                    b.Property<string>("Status");
 
                     b.HasKey("Id");
 

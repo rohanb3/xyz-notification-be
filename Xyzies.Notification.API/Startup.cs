@@ -24,7 +24,6 @@ using Xyzies.Notification.Data.Repository;
 using Xyzies.Notification.Data.Repository.Behaviour;
 using Xyzies.Notification.Services.Common.Interfaces;
 using Xyzies.Notification.Services.Helpers;
-using Xyzies.Notification.Services.LogProvider;
 using Xyzies.Notification.Services.Services;
 
 namespace Xyzies.Notification.API
@@ -115,11 +114,8 @@ namespace Xyzies.Notification.API
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceScopeFactory scopeFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-            loggerFactory.AddProvider(new LoggerDatabaseProvider(scopeFactory.CreateScope().ServiceProvider.GetService<ILogRepository>()));
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

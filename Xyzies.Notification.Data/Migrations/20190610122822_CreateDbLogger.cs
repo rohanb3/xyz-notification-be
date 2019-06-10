@@ -15,8 +15,7 @@ namespace Xyzies.Notification.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     CreateOn = table.Column<DateTime>(nullable: false),
                     Message = table.Column<string>(nullable: false),
-                    LogLevel = table.Column<string>(nullable: true),
-                    CategoryName = table.Column<string>(nullable: true)
+                    Status = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

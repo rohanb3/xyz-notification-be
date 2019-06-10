@@ -24,16 +24,14 @@ namespace Xyzies.Notification.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CategoryName");
-
                     b.Property<DateTime>("CreateOn");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("LogLevel");
-
                     b.Property<string>("Message")
                         .IsRequired();
+
+                    b.Property<string>("Status");
 
                     b.HasKey("Id");
 

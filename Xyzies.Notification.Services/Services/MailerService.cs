@@ -52,18 +52,28 @@ namespace Xyzies.Notification.Services.Services
 
         public async Task<Response> SendMail(EmailParameters model)
         {
-            var emailmodel = await PrepareEmail(model);
+            MailSendingModel emailmodel;
+            try
+            {
+                emailmodel = await PrepareEmail(model);
+            }
+            catch (ArgumentNullException ex)
+            {
+                await AddLogInfo(string.Empty, ex.Message);
+                throw new ArgumentNullException(ex.Message, ex);
+            }
 
             var msg = MailHelper.CreateSingleEmailToMultipleRecipients(emailmodel.From, emailmodel.To, emailmodel.Subject, emailmodel.PlainTextContent, emailmodel.HtmlContent);
-
             var response = await _client.SendEmailAsync(msg);
 
             if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
             {
+                await AddLogInfo(response.StatusCode.ToString(), $"Email send is failed for DeviceID:{model.UDID}");
                 throw new ApplicationException(response.StatusCode.ToString());
             }
 
-            _logger.LogInformation("Email Sent for DeviceID:{model.UDID}, Status: {response.StatusCode}", model.UDID, response.StatusCode.ToString());
+            await AddLogInfo(response.StatusCode.ToString(), $"Email Sent for DeviceID:{model.UDID}");
+            
             return response;
         }
 
@@ -79,12 +89,15 @@ namespace Xyzies.Notification.Services.Services
                 .OrderByDescending(x => x.CreateOn)
                 .FirstOrDefault();
 
-            email.Subject = MailerParcer.ProcessTemplate(emailtemplate.Subject, parameters);
-            email.From = new EmailAddress(_from);
-            email.To.AddRange(_to.Select(x => new EmailAddress(x)));
-            email.HtmlContent = MailerParcer.ProcessTemplate(emailtemplate.MessageBody, parameters);
-
-            return email;
+            if (emailtemplate != null)
+            {
+                email.Subject = MailerParcer.ProcessTemplate(emailtemplate.Subject, parameters);
+                email.From = new EmailAddress(_from);
+                email.To.AddRange(_to.Select(x => new EmailAddress(x)));
+                email.HtmlContent = MailerParcer.ProcessTemplate(emailtemplate.MessageBody, parameters);
+                return email;
+            }
+            throw new ArgumentNullException("Message", "Email template not found");
         }
 
         private Expression<Func<MessageTemplate, bool>> Filtering(string Cause)
@@ -94,6 +107,16 @@ namespace Xyzies.Notification.Services.Services
             expression = expression.AND(messagetemplate => messagetemplate.TypeOfMessages.Type == "email");
 
             return expression;
+        }
+
+        private async Task AddLogInfo(string status, string message)
+        {
+            await _loggerDb.AddAsync(new Log
+            {
+                Message = message,
+                CreateOn = DateTime.Now,
+                Status = status
+            });
         }
     }
 }

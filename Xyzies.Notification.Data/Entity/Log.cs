@@ -12,8 +12,6 @@ namespace Xyzies.Notification.Data.Entity
         [Required]
         public string Message { get; set; }
 
-        public string LogLevel { get; set; }
-
-        public string CategoryName { get; set; }
+        public string Status { get; set; }
     }
 }
