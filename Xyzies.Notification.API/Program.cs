@@ -13,7 +13,7 @@ namespace Xyzies.Notification.API
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            const int port = 8085;
+            const int port = 8086;
 
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

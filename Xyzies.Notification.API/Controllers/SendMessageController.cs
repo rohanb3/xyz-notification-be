@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Xyzies.Notification.Services.Common.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using IdentityServiceClient.Filters;
-using IdentityServiceClient;
 using Microsoft.AspNetCore.Http;
 using Xyzies.Notification.API.Models;
 using Mapster;
@@ -16,7 +13,6 @@ namespace Xyzies.Notification.API.Controllers
 {
     [Route("notification")]
     [ApiController]
-    [Authorize]
     public class SendMessage : BaseController
     {
         private readonly ILogger<SendMessage> _logger = null;
@@ -38,16 +34,21 @@ namespace Xyzies.Notification.API.Controllers
         /// Send Email
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        [HttpPost("sendEmail")]
-        [AccessFilter(Const.Permissions.NotificationEmail.PermissionForCreate)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status201Created  /* 201 */)]
+        [HttpPost("sendEmail/{token}/trusted")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK  /* 200 */)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest /* 400 */)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized /* 401 */)]
         [ProducesResponseType(typeof(void), StatusCodes.Status403Forbidden /* 403 */)]
         [SwaggerOperation(Tags = new[] { "Notification Api" })]
-        public async Task<IActionResult> SendEmail([FromBody]EmailParametersModel model)
+        public async Task<IActionResult> SendEmail([FromRoute]string token, [FromBody]EmailParametersModel model)
         {
+            if (token != Consts.StaticToken)
+            {
+                return new ContentResult { StatusCode = 403 };
+            }
+
             try
             {
                 var emailParams = model.Adapt<EmailParameters>();
@@ -56,6 +57,11 @@ namespace Xyzies.Notification.API.Controllers
                 return Ok();
             }
             catch (ArgumentNullException ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            catch (NullReferenceException ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);

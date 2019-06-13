@@ -18,7 +18,7 @@ namespace Xyzies.Notification.Services.Helpers
         {
             return typeof(EmailParameters)
                 .GetProperties()
-                .ToDictionary(c => c.Name.ToLower(), c => c.GetValue(emailParams).ToString());
+                .ToDictionary(c => c.Name.ToLower(), c => c.GetValue(emailParams)?.ToString());
             
         }
     }

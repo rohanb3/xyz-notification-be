@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Xyzies.Notification.Services.Models
 {
@@ -21,5 +22,7 @@ namespace Xyzies.Notification.Services.Models
         public string Cause { get; set; }
 
         public string MailTo { get; set; }
+
+        public IEnumerable<string> EmailsTo { get; set; }
     }
 }

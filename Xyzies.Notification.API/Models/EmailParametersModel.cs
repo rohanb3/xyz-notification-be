@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Xyzies.Notification.API.Models
 {
@@ -19,5 +20,7 @@ namespace Xyzies.Notification.API.Models
         public string Notes { get; set; }
 
         public DateTime LastHeartBeat { get; set; }
+
+        public IEnumerable<string> EmailsTo { get; set; }
     }
 }
