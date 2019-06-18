@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xyzies.Notification.Data", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xyzies.Notification.API", "Xyzies.Notification.API\Xyzies.Notification.API.csproj", "{884490A0-6DB6-4E98-AE8D-1A98796CB700}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xyzies.Notification.Tests", "Xyzies.Notification.Tests\Xyzies.Notification.Tests.csproj", "{94AF6DDC-948A-4FE4-BA18-1EC1907363A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xyzies.Notification.Tests", "Xyzies.Notification.Tests\Xyzies.Notification.Tests.csproj", "{94AF6DDC-948A-4FE4-BA18-1EC1907363A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{B5239469-3906-47FB-BFB0-6C46623FAEB0}"
+	ProjectSection(SolutionItems) = preProject
+		InsertEmailTemplates.sql = InsertEmailTemplates.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
