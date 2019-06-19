@@ -23,6 +23,8 @@ namespace Xyzies.Notification.Services.Models
 
         public string MailTo { get; set; }
 
+        public DateTime PreviousHeartBeat { get; set; }
+
         public IEnumerable<string> EmailsTo { get; set; }
     }
 }

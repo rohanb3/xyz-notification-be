@@ -21,6 +21,8 @@ namespace Xyzies.Notification.API.Models
 
         public DateTime LastHeartBeat { get; set; }
 
+        public DateTime PreviousHeartBeat { get; set; }
+
         public IEnumerable<string> EmailsTo { get; set; }
     }
 }

@@ -134,7 +134,7 @@ namespace Xyzies.Notification.API
                .UseHealthChecks("/api/health")
                .UseSwagger(options =>
                {
-                   options.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = $"{ServiceBaseUrlPrefix}");
+                   //options.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = $"{ServiceBaseUrlPrefix}");
 
                    options.RouteTemplate = "/swagger/{documentName}/swagger.json";
 
