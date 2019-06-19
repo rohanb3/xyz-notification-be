@@ -6,6 +6,8 @@ namespace Xyzies.Notification.Services.Common.Interfaces
 {
     public interface IMailerService
     {
-        Task<Response> SendMail(MailSendingModel model);
+        Task<Response> SendMail(EmailParameters model);
+
+        Task<MailSendingModel> PrepareEmail(EmailParameters emailParams);
     }
 }
