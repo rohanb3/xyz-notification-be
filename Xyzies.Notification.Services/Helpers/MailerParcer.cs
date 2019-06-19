@@ -5,7 +5,7 @@ using Xyzies.Notification.Services.Models;
 
 namespace Xyzies.Notification.Services.Helpers
 {
-    public static class MailerParcer
+    public static class MailerParser
     {
         public static string ProcessTemplate(string template, Dictionary<string, string> data)
         {

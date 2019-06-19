@@ -13,16 +13,16 @@ namespace Xyzies.Notification.API.Controllers
 {
     [Route("notification")]
     [ApiController]
-    public class SendMessage : BaseController
+    public class SendMessageController : BaseController
     {
-        private readonly ILogger<SendMessage> _logger = null;
+        private readonly ILogger<SendMessageController> _logger = null;
         private readonly IMailerService _mailer = null;
 
         /// <summary>
         /// SendMessage constructor
         /// </summary>
         /// <param name="logger"></param>
-        public SendMessage(ILogger<SendMessage> logger, IMailerService mailer)
+        public SendMessageController(ILogger<SendMessageController> logger, IMailerService mailer)
         {
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
@@ -55,16 +55,6 @@ namespace Xyzies.Notification.API.Controllers
 
                 await _mailer.SendMail(emailParams);
                 return Ok();
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-            catch (NullReferenceException ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
             }
             catch (ArgumentException ex)
             {

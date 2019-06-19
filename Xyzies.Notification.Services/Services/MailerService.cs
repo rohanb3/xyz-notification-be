@@ -69,7 +69,7 @@ namespace Xyzies.Notification.Services.Services
             if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
             {
                 await AddLogInfo(response.StatusCode.ToString(), $"Email send is failed for DeviceID:{model.UDID}");
-                throw new ApplicationException(response.StatusCode.ToString());
+                throw new ArgumentException(response.StatusCode.ToString());
             }
 
             await AddLogInfo(response.StatusCode.ToString(), $"Email Sent for DeviceID:{model.UDID}");
@@ -83,7 +83,7 @@ namespace Xyzies.Notification.Services.Services
 
             emailParams.MailTo = _toMail;
 
-            Dictionary<string, string> parameters = MailerParcer.PrepareDictionaryParams(emailParams);
+            Dictionary<string, string> parameters = MailerParser.PrepareDictionaryParams(emailParams);
 
             var emailtemplate = (await _messagetTemplateRepository.GetAsync(Filtering(emailParams.Cause)))
                 .OrderByDescending(x => x.CreateOn)
@@ -91,11 +91,11 @@ namespace Xyzies.Notification.Services.Services
 
             if (emailtemplate != null)
             {
-                email.Subject = MailerParcer.ProcessTemplate(emailtemplate.Subject, parameters);
+                email.Subject = MailerParser.ProcessTemplate(emailtemplate.Subject, parameters);
                 email.From = new EmailAddress(_from);
                 email.To.AddRange(_to?.Select(x => new EmailAddress(x)) ?? new List<EmailAddress>());
                 email.To.AddRange(emailParams.EmailsTo?.Select(x => new EmailAddress(x)) ?? new List<EmailAddress>());
-                email.HtmlContent = MailerParcer.ProcessTemplate(emailtemplate.MessageBody, parameters);
+                email.HtmlContent = MailerParser.ProcessTemplate(emailtemplate.MessageBody, parameters);
                 return email;
             }
             throw new ArgumentNullException("Message", "Email template not found");
@@ -105,7 +105,7 @@ namespace Xyzies.Notification.Services.Services
         {
             Expression<Func<MessageTemplate, bool>> expression = messagetemplate => messagetemplate.Cause == Cause;
 
-            expression = expression.AND(messagetemplate => messagetemplate.TypeOfMessages.Type == "email");
+            expression = expression.AND(messagetemplate => messagetemplate.TypeOfMessages.Type.ToLower() == "email");
 
             return expression;
         }
@@ -115,7 +115,7 @@ namespace Xyzies.Notification.Services.Services
             await _loggerDb.AddAsync(new Log
             {
                 Message = message,
-                CreateOn = DateTime.Now,
+                CreateOn = DateTime.UtcNow,
                 Status = status
             });
         }

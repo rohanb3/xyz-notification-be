@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +92,7 @@ namespace Xyzies.Notification.Tests.UnitTests
             };
 
             // Act
-            var actual = MailerParcer.PrepareDictionaryParams(emailParams);
+            var actual = MailerParser.PrepareDictionaryParams(emailParams);
 
             //Assert
             Assert.Equal(expected, actual);
@@ -115,7 +114,7 @@ namespace Xyzies.Notification.Tests.UnitTests
             };
 
             // Act
-            var actual = MailerParcer.ProcessTemplate(template, dict);
+            var actual = MailerParser.ProcessTemplate(template, dict);
 
             //Assert
             Assert.Equal(expected, actual);
