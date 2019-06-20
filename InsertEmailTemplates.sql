@@ -1,7 +1,4 @@
-﻿USE [db.xyzies.notification]
-GO
-
-DELETE FROM MessageTemplates
+﻿DELETE FROM MessageTemplates
 DELETE FROM TypeOfMessages
 
 ---------------------------------------------------------------------------------------
