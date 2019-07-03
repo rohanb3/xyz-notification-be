@@ -94,7 +94,7 @@ namespace Xyzies.Notification.Services.Services
                 email.Subject = MailerParser.ProcessTemplate(emailtemplate.Subject, parameters);
                 email.From = new EmailAddress(_from);
                 email.To.AddRange(_to?.Select(x => new EmailAddress(x)) ?? new List<EmailAddress>());
-                //email.To.AddRange(emailParams.EmailsTo?.Select(x => new EmailAddress(x)) ?? new List<EmailAddress>());
+                //email.To.AddRange(emailParams.EmailsTo?.Select(x => new EmailAddress(x)) ?? new List<EmailAddress>());/
                 email.HtmlContent = MailerParser.ProcessTemplate(emailtemplate.MessageBody, parameters);
                 return email;
             }
