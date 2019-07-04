@@ -40,9 +40,7 @@ namespace Xyzies.Notification.API
 
         public IConfiguration Configuration { get; }
 
-        public static string ServiceBaseUrlPrefix { get; set; } = "/api/notification-management-api"; // Default
-
-        // This method gets called by the runtime. Use this method to add services to the container
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
@@ -134,10 +132,7 @@ namespace Xyzies.Notification.API
                .UseHealthChecks("/api/health")
                .UseSwagger(options =>
                {
-                   options.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = $"{ServiceBaseUrlPrefix}");
-
                    options.RouteTemplate = "/swagger/{documentName}/swagger.json";
-
                })
                .UseSwaggerUI(uiOptions =>
                {
