@@ -50,6 +50,15 @@ Feedback can be sent to support form on mailto:<a href = "mailto: {mailto}">{mai
            ,'<p>VSP was out of location at {lastheartbeat}</p><p></p>
 		   <p>The VSP is located at this address:</p><p>Address: {address}<p>Town: {town}, Post Code: {postcode}<p>Country: {country}<p>Notes: {notes}<p></p>
 		   <p>Feedback can be sent to support form on mailto:<a href = "mailto: {mailto}">{mailto}</a></p>'
+           ,'A1E4925F-D2E3-450C-8A99-27EC5F6899B2'),
+		   ('183C8929-ABF4-4837-87DD-C322AD37B19E'
+           ,0
+           , GETUTCDATE()
+           ,'inlocation'
+           ,'VSP {udid} is back to location'
+           ,'<p>VSP was back to location at {lastheartbeat}</p><p></p>
+		   <p>The VSP is located at this address:</p><p>Address: {address}<p>Town: {town}, Post Code: {postcode}<p>Country: {country}<p>Notes: {notes}<p></p>
+		   <p>Feedback can be sent to support form on mailto:<a href = "mailto: {mailto}">{mailto}</a></p>'
            ,'A1E4925F-D2E3-450C-8A99-27EC5F6899B2')
 GO
 ---------------------------------------------------------------------------------------
