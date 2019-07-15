@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190606102606_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190606102606_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607081544_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607081544_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607084134_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607084134_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607084303_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607084303_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607090119_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607090119_CreateEmailTemplateTable.Designer.cs" />
+    <Compile Remove="Migrations\20190607103708_CreateEmailTemplateTable.cs" />
+    <Compile Remove="Migrations\20190607103708_CreateEmailTemplateTable.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
