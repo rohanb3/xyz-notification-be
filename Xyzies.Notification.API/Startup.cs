@@ -1,4 +1,5 @@
-﻿using IdentityServiceClient;
+﻿using Ardas.AspNetCore.Logging;
+using IdentityServiceClient;
 using IdentityServiceClient.Middlewares;
 using Mapster;
 using Microsoft.AspNetCore.Authentication;
@@ -105,6 +106,8 @@ namespace Xyzies.Notification.API
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore
             };
+
+            services.AddTcpStreamLogging(options => Configuration.Bind("Logstash", options));
 
             TypeAdapterConfig.GlobalSettings.Default.PreserveReference(true);
             MapperConfigure.Configure();
