@@ -1,4 +1,5 @@
-﻿using IdentityServiceClient;
+﻿using Ardas.AspNetCore.Logging;
+using IdentityServiceClient;
 using IdentityServiceClient.Middlewares;
 using Mapster;
 using Microsoft.AspNetCore.Authentication;
@@ -106,12 +107,14 @@ namespace Xyzies.Notification.API
                 NullValueHandling = NullValueHandling.Ignore
             };
 
+            services.AddTcpStreamLogging(options => Configuration.Bind("Logstash", options));
+
             TypeAdapterConfig.GlobalSettings.Default.PreserveReference(true);
             MapperConfigure.Configure();
         }
 
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
