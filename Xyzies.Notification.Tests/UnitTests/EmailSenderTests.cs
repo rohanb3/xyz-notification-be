@@ -62,6 +62,7 @@ namespace Xyzies.Notification.Tests.UnitTests
             string Country = Fixture.Create<string>();
             string Notes = Fixture.Create<string>();
             DateTime LastHeartBeat = Fixture.Create<DateTime>();
+            DateTime PreviousHeartBeat = Fixture.Create<DateTime>();
             string Cause = Fixture.Create<string>();
             string MailTo = Fixture.Create<string>();
 
@@ -75,19 +76,21 @@ namespace Xyzies.Notification.Tests.UnitTests
                 .With(x => x.MailTo, MailTo)
                 .With(x => x.LastHeartBeat, LastHeartBeat)
                 .With(x => x.UDID, UDID)
+                .With(x => x.PreviousHeartBeat, PreviousHeartBeat)
                 .Without(x => x.EmailsTo)
                 .Create();
 
             Dictionary<string, string> expected = new Dictionary<string, string>{
+                { "udid", UDID},
                 { "address", Address},
-                { "cause", Cause},
                 { "town", Town},
                 { "postcode", PostCode},
                 { "country", Country},
                 { "notes", Notes},
-                { "mailto", MailTo},
                 { "lastheartbeat", LastHeartBeat.ToString()},
-                { "udid", UDID},
+                { "cause", Cause},
+                { "mailto", MailTo},
+                { "previousheartbeat", PreviousHeartBeat.ToString()},
                 { "emailsto", null}
             };
 
