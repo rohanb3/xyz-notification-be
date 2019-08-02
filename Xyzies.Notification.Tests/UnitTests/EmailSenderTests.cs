@@ -17,30 +17,38 @@ using Xyzies.Notification.Services.Models;
 using Xyzies.Notification.Services.Services;
 using Xyzies.Notification.Tests.Common;
 using FluentAssertions;
+using System.Net;
+using SendGrid.Helpers.Mail;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
 
 namespace Xyzies.Notification.Tests.UnitTests
 {
     public class EmailSenderTests : BaseTest
     {
-        private Mock<SendGridClient> _sendGridMock;
+        private Mock<ISendGridClient> _sendGridMock;
         private readonly IMailerService _mailerService = null;
         private ILogger<MailerService> _loggerMock;
         private Mock<ILogRepository> _loggerDbMock;
         private Mock<IMessageTemplateRepository> _messageRepositoryMock;
         private Mock<IOptionsMonitor<MailerOptions>> _mailerOptionsMonitorMock;
-         
+
         public EmailSenderTests()
         {
             _loggerMock = Mock.Of<ILogger<MailerService>>();
             _loggerDbMock = new Mock<ILogRepository>();
             _messageRepositoryMock = new Mock<IMessageTemplateRepository>();
             _mailerOptionsMonitorMock = new Mock<IOptionsMonitor<MailerOptions>>();
-
             string MailTo = Fixture.Create<string>();
             var To = Fixture.Build<string>()
                 .CreateMany(10).ToList();
             string From = Fixture.Create<string>();
 
+            Mock<SendGridClientOptions> mock= new Mock<SendGridClientOptions>();
+
+            _sendGridMock = new Mock<ISendGridClient>();
+            //_sendGridMock.Object.op
             _mailerOptionsMonitorMock.Setup(x => x.CurrentValue).Returns(new MailerOptions()
             {
                 From = From,
@@ -48,7 +56,7 @@ namespace Xyzies.Notification.Tests.UnitTests
                 To = To
             });
 
-            _mailerService = new MailerService(_mailerOptionsMonitorMock.Object, _messageRepositoryMock.Object, _loggerMock, _loggerDbMock.Object);
+            _mailerService = new MailerService(_mailerOptionsMonitorMock.Object, _messageRepositoryMock.Object, _loggerMock, _loggerDbMock.Object, _sendGridMock.Object);
         }
 
         [Fact]
@@ -155,7 +163,7 @@ namespace Xyzies.Notification.Tests.UnitTests
                 .With(x => x.UDID, UDID)
                 .Without(x => x.EmailsTo)
                 .Create();
-            
+
             MessageTemplate template = Fixture.Build<MessageTemplate>()
                 .With(x => x.Cause, cause)
                 .With(x => x.Id, idTempl)
@@ -193,6 +201,41 @@ namespace Xyzies.Notification.Tests.UnitTests
 
             //Assert
             await actual.Should().ThrowAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task ShouldThrowExceptionSendEmailToSendGrid()
+        {
+            // Arrange
+            string UDID = Fixture.Create<string>();
+            string Address = Fixture.Create<string>();
+            string Town = Fixture.Create<string>();
+            string PostCode = Fixture.Create<string>();
+            string Country = Fixture.Create<string>();
+            string Notes = Fixture.Create<string>();
+            DateTime LastHeartBeat = Fixture.Create<DateTime>();
+            DateTime PreviousHeartBeat = Fixture.Create<DateTime>();
+            string Cause = Fixture.Create<string>();
+            string MailTo = Fixture.Create<string>();
+
+            EmailParameters emailParams = Fixture.Build<EmailParameters>()
+                .With(x => x.Address, Address)
+                .With(x => x.Cause, Cause)
+                .With(x => x.Town, Town)
+                .With(x => x.PostCode, PostCode)
+                .With(x => x.Country, Country)
+                .With(x => x.Notes, Notes)
+                .With(x => x.MailTo, MailTo)
+                .With(x => x.LastHeartBeat, LastHeartBeat)
+                .With(x => x.UDID, UDID)
+                .With(x => x.PreviousHeartBeat, PreviousHeartBeat)
+                .Without(x => x.EmailsTo)
+                .Create();
+
+            // Act
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _mailerService.SendMail(emailParams));
         }
     }
 }

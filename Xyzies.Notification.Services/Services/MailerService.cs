@@ -18,7 +18,7 @@ namespace Xyzies.Notification.Services.Services
 {
     public class MailerService : IMailerService
     {
-        private readonly SendGridClient _client;
+        private readonly ISendGridClient _client;
         private readonly IMessageTemplateRepository _messagetTemplateRepository;
         private readonly ILogger<MailerService> _logger = null;
         private readonly ILogRepository _loggerDb = null;
@@ -29,12 +29,14 @@ namespace Xyzies.Notification.Services.Services
         public MailerService(IOptionsMonitor<MailerOptions> mailerOptionsMonitor,
             IMessageTemplateRepository messagetTemplateRepository,
             ILogger<MailerService> logger,
-            ILogRepository loggerDb)
+            ILogRepository loggerDb,
+            ISendGridClient sendGridClient)
         {
             var options = mailerOptionsMonitor.CurrentValue ??
                 throw new ArgumentNullException(nameof(mailerOptionsMonitor));
 
-            _client = new SendGridClient(options.ApiKey);
+            _client = sendGridClient ??
+                throw new ArgumentNullException(nameof(sendGridClient));//new SendGridClient(options.ApiKey);
 
             _to = options.To;
             _from = options.From;

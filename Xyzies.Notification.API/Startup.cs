@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SendGrid;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -99,6 +100,7 @@ namespace Xyzies.Notification.API
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<IMessageTemplateRepository, MessageTemplateRepository>();
             services.AddScoped<IMailerService, MailerService>();
+            services.AddSingleton<ISendGridClient>(s => new SendGridClient(Configuration.GetSection("MailServiceOptions")["ApiKey"]));
             #endregion
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
