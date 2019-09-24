@@ -143,7 +143,7 @@ namespace Xyzies.Notification.API
                    uiOptions.DisplayRequestDuration();
                });
 
-            _logger.LogDebug("Startup configured successfully.");
+            _logger.LogDebug("Startup configured successfully.");//
         }
     }
 }
