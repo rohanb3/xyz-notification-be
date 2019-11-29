@@ -68,11 +68,11 @@ namespace Xyzies.Notification.Services.Services
 
             if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
             {
-                await AddLogInfo(response.StatusCode.ToString(), $"Email send is failed for DeviceID:{model.UDID}");
+                await AddLogInfo(response.StatusCode.ToString(), $"Email cause: {model.Cause} send is failed for DeviceID:{model.UDID}");
                 throw new ArgumentException(response.StatusCode.ToString());
             }
 
-            await AddLogInfo(response.StatusCode.ToString(), $"Email Sent for DeviceID:{model.UDID}");
+            await AddLogInfo(response.StatusCode.ToString(), $"Email cause: {model.Cause} Sent for DeviceID:{model.UDID}");
             
             return response;
         }
