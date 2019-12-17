@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Xyzies.Notification.API.Mappers;
+using Xyzies.Notification.API.Options;
 using Xyzies.Notification.Data;
 using Xyzies.Notification.Data.Repository;
 using Xyzies.Notification.Data.Repository.Behaviour;
@@ -52,6 +53,7 @@ namespace Xyzies.Notification.API
             services.AddHttpContextAccessor();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.Configure<AssemblyOptions>(options => Configuration.Bind("AssemblyVersion", options));
 
             services.AddIdentityClient(options =>
             {
