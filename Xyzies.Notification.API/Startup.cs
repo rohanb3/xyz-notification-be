@@ -1,7 +1,16 @@
-﻿using Ardas.AspNetCore.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
+using Ardas.AspNetCore.Logging;
+
 using IdentityServiceClient;
 using IdentityServiceClient.Middlewares;
+
 using Mapster;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
@@ -11,14 +20,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+
 using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+
 using Xyzies.Notification.API.Mappers;
 using Xyzies.Notification.API.Options;
 using Xyzies.Notification.Data;
@@ -37,7 +44,8 @@ namespace Xyzies.Notification.API
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _logger = logger ??
+                throw new ArgumentNullException(nameof(logger));
         }
 
         public IConfiguration Configuration { get; }
@@ -69,32 +77,29 @@ namespace Xyzies.Notification.API
                 options.SwaggerDoc("v1", new Info
                 {
                     Title = "Xyzies.Notification",
-                    Version = $"v1.0.0",
-                    Description = ""
+                        Version = $"v1.0.0",
+                        Description = ""
                 });
 
                 options.AddSecurityDefinition("Bearer", new ApiKeyScheme
                 {
                     In = "header",
-                    Name = "Authorization",
-                    Description = "Please enter JWT with Bearer into field",
-                    Type = "apiKey"
+                        Name = "Authorization",
+                        Description = "Please enter JWT with Bearer into field",
+                        Type = "apiKey"
                 });
 
-                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                {
-                    { "Bearer", Enumerable.Empty<string>() }
-                });
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> { { "Bearer", Enumerable.Empty<string>() } });
 
                 options.CustomSchemaIds(x => x.FullName);
                 options.EnableAnnotations();
                 options.DescribeAllEnumsAsStrings();
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
-                   string.Concat(Assembly.GetExecutingAssembly().GetName().Name, ".xml")));
+                    string.Concat(Assembly.GetExecutingAssembly().GetName().Name, ".xml")));
             });
 
             services.AddDbContext<NotificationContext>(ctxOptions =>
-                    ctxOptions.UseSqlServer(Configuration.GetConnectionString("db")));
+                ctxOptions.UseSqlServer(Configuration.GetConnectionString("db")));
 
             #region DI settings
 
@@ -115,7 +120,6 @@ namespace Xyzies.Notification.API
             MapperConfigure.Configure();
         }
 
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -131,19 +135,19 @@ namespace Xyzies.Notification.API
             }
 
             app.UseCors("dev")
-               .UseAuthentication()
-               .UseClientMiddleware()
-               .UseMvc()
-               .UseHealthChecks("/api/health")
-               .UseSwagger(options =>
-               {
-                   options.RouteTemplate = "/swagger/{documentName}/swagger.json";
-               })
-               .UseSwaggerUI(uiOptions =>
-               {
-                   uiOptions.SwaggerEndpoint("v1/swagger.json", $"v1.0.0");
-                   uiOptions.DisplayRequestDuration();
-               });
+                .UseAuthentication()
+                .UseClientMiddleware()
+                .UseMvc()
+                .UseHealthChecks("/api/health")
+                .UseSwagger(options =>
+                {
+                    options.RouteTemplate = "/swagger/{documentName}/swagger.json";
+                })
+                .UseSwaggerUI(uiOptions =>
+                {
+                    uiOptions.SwaggerEndpoint("v1/swagger.json", $"v1.0.0");
+                    uiOptions.DisplayRequestDuration();
+                });
 
             _logger.LogDebug("Startup configured successfully.");
         }
